@@ -2,6 +2,7 @@ package com.cs514.backendproject5travelplanner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -106,7 +107,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteByUserID")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> deleteByUserID(@RequestParam String userID) {
         if (userID == null || userID.isEmpty()) {
             return ResponseEntity.badRequest().body("UserID is required");
@@ -119,6 +120,27 @@ public class UserController {
         }
 
         // Assuming userID is unique, delete the first matching user
+        userRepository.delete(users.get(0));
+
+        return ResponseEntity.ok("User with UserID " + userID + " deleted successfully");
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000") // 允许前端请求
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteByUserID(@RequestBody Map<String, String> payload) {
+        String userID = payload.get("userID"); // 从请求体中获取 userID
+
+        if (userID == null || userID.isEmpty()) {
+            return ResponseEntity.badRequest().body("UserID is required");
+        }
+
+        // check is user is exist
+        List<User> users = userRepository.findByUserID(userID);
+        if (users.isEmpty()) {
+            return ResponseEntity.status(404).body("User with UserID " + userID + " not found");
+        }
+
+        // assume userID is unique，delete the first match user
         userRepository.delete(users.get(0));
 
         return ResponseEntity.ok("User with UserID " + userID + " deleted successfully");
