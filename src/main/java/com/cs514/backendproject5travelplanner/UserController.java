@@ -81,12 +81,12 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<User> updateByUserID(@RequestBody User user) {
         if (user.getUserID() == null || user.getUserID().isEmpty()) {
-            return ResponseEntity.badRequest().body(null); // 如果没有 userID，返回错误
+            return ResponseEntity.badRequest().body(null);
         }
 
         List<User> existingUsers = userRepository.findByUserID(user.getUserID());
         if (existingUsers.isEmpty()) {
-            return ResponseEntity.notFound().build(); // 如果没有找到用户，返回 404
+            return ResponseEntity.notFound().build();
         }
 
         User existingUser = existingUsers.get(0);
@@ -107,7 +107,7 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteByUserID")
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteByUserID(@RequestParam String userID) {
         if (userID == null || userID.isEmpty()) {
             return ResponseEntity.badRequest().body("UserID is required");
@@ -125,10 +125,10 @@ public class UserController {
         return ResponseEntity.ok("User with UserID " + userID + " deleted successfully");
     }
 
-    @CrossOrigin(origins = "http://localhost:3000") // 允许前端请求
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/deleteUser")
     public ResponseEntity<String> deleteByUserID(@RequestBody Map<String, String> payload) {
-        String userID = payload.get("userID"); // 从请求体中获取 userID
+        String userID = payload.get("userID");
 
         if (userID == null || userID.isEmpty()) {
             return ResponseEntity.badRequest().body("UserID is required");
