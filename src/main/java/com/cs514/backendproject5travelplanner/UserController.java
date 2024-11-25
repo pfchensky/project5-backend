@@ -79,6 +79,9 @@ public class UserController {
     }
     @PutMapping("/updateByUserID")
     @CrossOrigin(origins = "*")
+    /**
+     * update user ID
+     */
     public ResponseEntity<User> updateByUserID(@RequestBody User user) {
         if (user.getUserID() == null || user.getUserID().isEmpty()) {
             return ResponseEntity.badRequest().body(null);
