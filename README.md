@@ -3,7 +3,7 @@
 ## Overview
 The **Travel Planner** The application is designed for users to create a personalized travel plan. By applying OpenAI and providing user destination and travel duration, this application generates customized travel plans based on user preferences, such as age and interests. It offers an efficient and productive way to design a customized travel experience.
 
-For extension, we propose to add more functional applications in this app, such as adding an agent to search and book for accomodation and flight tickets. We also consider to add a more efficient global database, such as special events for each date in each worldwide location. Once a user searches for a specific location on a specific date, a different user can reuse those database without calling the AI again.
+For extension, we propose to add more functional applications in this app, such as adding an agent to search and book for accommodation and flight tickets. We also consider to add a more efficient global database, such as special events for each date in each worldwide location. Once a user searches for a specific location on a specific date, a different user can reuse those database without calling the AI again.
 
 ---
 

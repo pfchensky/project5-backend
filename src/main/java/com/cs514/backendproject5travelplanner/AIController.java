@@ -30,11 +30,13 @@ public class AIController {
         try {
             // Build the context string
             String context = String.format(
-                    "You are a travel assistant AI. Generate a travel plan for the following user:\n" +
+                    "You are a travel assistant AI. Generate a %d-day travel plan for the following user:\n" +
                             "- Age: %d\n" +
                             "- Interest: %s\n" +
                             "- Location: %s\n" +
+                            //"- Duration: %d days\n" +
                             "Please create a detailed travel plan for them based on their interest, location, and age.",
+                    request.getDuration(),
                     request.getAge(),
                     request.getInterest(),
                     request.getLocation()
@@ -52,6 +54,7 @@ public class AIController {
         private int age;
         private String interest;
         private String location;
+        private int duration;
 
         // Getters and setters
         public int getAge() {
@@ -76,6 +79,13 @@ public class AIController {
 
         public void setLocation(String location) {
             this.location = location;
+        }
+        public int getDuration() {
+            return duration;
+        }
+
+        public void setDuration(int duration) {
+            this.duration = duration;
         }
     }
 }
