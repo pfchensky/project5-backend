@@ -1,13 +1,7 @@
 package com.cs514.backendproject5travelplanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import ai.peoplecode.OpenAIConversation;
 
 @RestController
@@ -26,18 +20,7 @@ public class AIController {
     }
 
     public AIController() {
-//        public String getOpenAIKey() {
-//            String apiKey = System.getenv("OPENAI_API_KEY");
-//            if (apiKey == null)
-//            { throw new IllegalStateException("API Key not found in environment variables");
-//            }
-//            return apiKey;
-//        }
 
-//        String apiKey = System.getenv("OPENAI_API_KEY");
-//        if (apiKey == null) {
-//            throw new IllegalStateException("API key is not set in environment variables.");
-//        }
         conversation = new OpenAIConversation(getOpenAIKey(), "gpt-4o-mini"); // Or gpt-4
     }
 
