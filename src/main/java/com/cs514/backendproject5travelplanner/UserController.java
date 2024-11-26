@@ -101,8 +101,8 @@ public class UserController {
         if (user.getAge() > 0) {
             existingUser.setAge(user.getAge());
         }
-        if (user.getLocation() != null && !user.getLocation().isEmpty()) {
-            existingUser.setLocation(user.getLocation());
+        if (user.getDestination() != null && !user.getDestination().isEmpty()) {
+            existingUser.setDestination(user.getDestination());
         }
 
         User updatedUser = userRepository.save(existingUser);

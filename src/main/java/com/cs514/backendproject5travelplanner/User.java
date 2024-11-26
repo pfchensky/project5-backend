@@ -14,16 +14,16 @@ public class User {
 
     int age;
 
-    String location;
+    String destination;
 
     public User() {
     }
 
-    public User(String userID,String interest, int age, String location) {
+    public User(String userID,String interest, int age, String destination) {
         this.userID=userID;
         this.interest=interest;
         this.age = age;
-        this.location = location;
+        this.destination = destination;
     }
 
     public long getId() {
@@ -58,12 +58,12 @@ public class User {
         this.age = age;
     }
 
-    public String getLocation() {
-        return location;
+    public String getDestination() {
+        return destination;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
 
@@ -73,7 +73,7 @@ public class User {
                 "id:" + this.id +",userID:'" + this.userID + '\''+
                 ", interest:'" + this.interest + '\'' +
                 ", age:'" + this.age + '\'' +
-                ", location:" + this.location +
+                ", destination:" + this.destination +
                 '}';
     }
 }

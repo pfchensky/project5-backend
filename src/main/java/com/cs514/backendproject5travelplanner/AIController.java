@@ -33,13 +33,13 @@ public class AIController {
                     "You are a travel assistant AI. Generate a %d-day travel plan for the following user:\n" +
                             "- Age: %d\n" +
                             "- Interest: %s\n" +
-                            "- Location: %s\n" +
+                            "- Destination: %s\n" +
                             //"- Duration: %d days\n" +
-                            "Please create a detailed travel plan for them based on their interest, location, and age.",
+                            "Please create a detailed travel plan for them based on their interest, destination, and age.",
                     request.getDuration(),
                     request.getAge(),
                     request.getInterest(),
-                    request.getLocation()
+                    request.getDestination()
             );
 
             // Call OpenAI to generate the travel plan
@@ -53,7 +53,7 @@ public class AIController {
     public static class TravelPlanRequest {
         private int age;
         private String interest;
-        private String location;
+        private String destination;
         private int duration;
 
         // Getters and setters
@@ -73,12 +73,12 @@ public class AIController {
             this.interest = interest;
         }
 
-        public String getLocation() {
-            return location;
+        public String getDestination() {
+            return destination;
         }
 
-        public void setLocation(String location) {
-            this.location = location;
+        public void setDestination(String destination) {
+            this.destination = destination;
         }
         public int getDuration() {
             return duration;
