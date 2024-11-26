@@ -1,3 +1,4 @@
+
 package com.cs514.backendproject5travelplanner;
 
 import java.util.List;
@@ -15,4 +16,8 @@ public interface UserRepository extends DatastoreRepository<User, Long> {
 
     List<User> findByInterestAndAge(String interest, int age);
     List<User> findByUserID(String userID);
+
+    List<User> findByUserName(String userName);
+
+    List<User> findByGender(String gender);
 }

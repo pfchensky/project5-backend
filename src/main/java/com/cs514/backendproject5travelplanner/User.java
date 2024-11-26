@@ -7,29 +7,27 @@ import org.springframework.data.annotation.Id;
 public class User {
     @Id
     Long id;
-
     String userID;
-
+    String userName;
     String interest;
-
     int age;
-
-    String location;
+    String gender;
 
     public User() {
     }
 
-    public User(String userID,String interest, int age, String location) {
+    public User(String userID,String userName,String interest, int age, String gender) {
         this.userID=userID;
+        this.userName=userName;
         this.interest=interest;
         this.age = age;
-        this.location = location;
+        this.gender=gender;
+
     }
 
     public long getId() {
         return this.id;
     }
-
     public void setId(Long id) {
         this.id=id;
     }
@@ -41,7 +39,12 @@ public class User {
     public void setUserID(String userID) {
         this.userID = userID;
     }
-
+    public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
     public String getInterest() {
         return interest;
     }
@@ -57,23 +60,23 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
-
-    public String getLocation() {
-        return location;
+    public String getGender() {
+        return gender;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
-
 
     @Override
     public String toString() {
-        return "{" +
-                "id:" + this.id +",userID:'" + this.userID + '\''+
-                ", interest:'" + this.interest + '\'' +
-                ", age:'" + this.age + '\'' +
-                ", location:" + this.location +
+        return "User{" +
+                "id=" + id +
+                ", userID='" + userID + '\'' +
+                ", userName='" + userName + '\'' +
+                ", interest='" + interest + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }
