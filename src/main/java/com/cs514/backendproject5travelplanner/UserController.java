@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class UserController {
 
-    //constant
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
