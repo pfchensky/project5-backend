@@ -7,27 +7,29 @@ import org.springframework.data.annotation.Id;
 public class User {
     @Id
     Long id;
+
     String userID;
-    String userName;
+
     String interest;
+
     int age;
-    String gender;
+
+    String location;
 
     public User() {
     }
 
-    public User(String userID,String userName,String interest, int age, String gender) {
+    public User(String userID,String interest, int age, String location) {
         this.userID=userID;
-        this.userName=userName;
         this.interest=interest;
         this.age = age;
-        this.gender=gender;
-
+        this.location = location;
     }
 
     public long getId() {
         return this.id;
     }
+
     public void setId(Long id) {
         this.id=id;
     }
@@ -39,12 +41,7 @@ public class User {
     public void setUserID(String userID) {
         this.userID = userID;
     }
-    public String getUserName() {
-        return userName;
-    }
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+
     public String getInterest() {
         return interest;
     }
@@ -60,22 +57,23 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
-    public String getGender() {
-        return gender;
+
+    public String getLocation() {
+        return location;
     }
-    public void setGender(String gender) {
-        this.gender = gender;
+
+    public void setLocation(String location) {
+        this.location = location;
     }
+
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userID='" + userID + '\'' +
-                ", userName='" + userName + '\'' +
-                ", interest='" + interest + '\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\'' +
+        return "{" +
+                "id:" + this.id +",userID:'" + this.userID + '\''+
+                ", interest:'" + this.interest + '\'' +
+                ", age:'" + this.age + '\'' +
+                ", location:" + this.location +
                 '}';
     }
 }
