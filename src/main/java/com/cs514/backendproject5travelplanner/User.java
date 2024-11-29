@@ -63,7 +63,6 @@ public class User {
     public String getGender() {
         return gender;
     }
-
     public void setGender(String gender) {
         this.gender = gender;
     }

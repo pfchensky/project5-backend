@@ -46,7 +46,6 @@ public class UserController {
         return UserList;
     }
 
-
     @GetMapping("/findByUserID")
     @ResponseBody
     @CrossOrigin(origins = "*")

@@ -11,7 +11,6 @@ public class Trip {
         this.duration = duration;
         this.month = month;
     }
-
     // Getters and Setters
     public String getDestination() { return destination; }
     public void setDestination(String destination) { this.destination = destination; }

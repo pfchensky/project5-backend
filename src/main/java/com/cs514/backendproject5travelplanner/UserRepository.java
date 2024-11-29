@@ -12,9 +12,6 @@ public interface UserRepository extends DatastoreRepository<User, Long> {
 
     List<User> findByAge(int age);
 
-    List<User> findByAgeGreaterThan(int age);
-
-    List<User> findByInterestAndAge(String interest, int age);
     List<User> findByUserID(String userID);
 
     List<User> findByUserName(String userName);

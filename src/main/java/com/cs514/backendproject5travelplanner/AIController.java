@@ -40,7 +40,7 @@ public class AIController {
                 List<User> users = userRepository.findByUserName(userWithTrip.getUserName());
 
                 if (!users.isEmpty()) {
-                    User user = users.get(0); // Assuming userName is unique in the database
+                    User user = users.get(0);
 
                     // Get the trip details from the request
                     Trip userTrip = userWithTrip.getTrip();  // trip info from frontend
