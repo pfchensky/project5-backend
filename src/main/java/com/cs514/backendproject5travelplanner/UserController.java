@@ -1,145 +1,121 @@
 package com.cs514.backendproject5travelplanner;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class UserController {
 
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
-
         this.userRepository = userRepository;
     }
 
+    // Save a new user
     @PostMapping("/saveUser")
-    @CrossOrigin(origins = "*")
-    public User saveUser(@RequestBody User user) {
-        System.out.println("Received User: " + user);
-        return this.userRepository.save(user);
-
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        if (user == null || user.getUserID() == null || user.getUserID().isEmpty()) {
+            return ResponseEntity.badRequest().body(null); // Validate user input
+        }
+        User savedUser = userRepository.save(user);
+        return ResponseEntity.ok(savedUser);
     }
 
+    // Login or register a user
+    @PostMapping("/login")
+    public ResponseEntity<User> loginOrRegister(@RequestBody Map<String, String> payload) {
+        String userID = payload.get("userID");
+        String userName = payload.get("userName");
 
+        if (userID == null || userID.isEmpty() || userName == null || userName.isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Optional<User> existingUser = userRepository.findByUserID(userID);
+        if (existingUser.isPresent()) {
+            return ResponseEntity.ok(existingUser.get());
+        }
+
+        User newUser = new User(userID, userName, "No interest", 0, "Unknown");
+        User savedUser = userRepository.save(newUser);
+        return ResponseEntity.ok(savedUser);
+    }
+
+    // Find user by interest
     @GetMapping("/findByInterest")
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    public List<User> findByInterest(@RequestParam String Interest) {
-        Iterable<User> Users = this.userRepository.findByInterest(Interest);
-        List<User> UserList = new ArrayList<>();
-        Users.forEach(UserList::add);
-        return UserList;
+    public ResponseEntity<List<User>> findByInterest(@RequestParam String interest) {
+        List<User> users = userRepository.findByInterest(interest);
+        return ResponseEntity.ok(users);
     }
 
-
+    // Find user by unique userID
     @GetMapping("/findByUserID")
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    public List<User> findByUserID(@RequestParam String userID) {
-        Iterable<User> Users = this.userRepository.findByUserID(userID);
-        List<User> UserList = new ArrayList<>();
-        Users.forEach(UserList::add);
-        return UserList;
+    public ResponseEntity<User> findByUserID(@RequestParam String userID) {
+        Optional<User> user = userRepository.findByUserID(userID);
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(404).body(null)); // Return 404 if not found
     }
+
+    // Find users by username
     @GetMapping("/findByUserName")
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    public List<User> findByUserName(@RequestParam String userName) {
-        Iterable<User> Users = this.userRepository.findByUserName(userName);
-        List<User> UserList = new ArrayList<>();
-        Users.forEach(UserList::add);
-        return UserList;
+    public ResponseEntity<List<User>> findByUserName(@RequestParam String userName) {
+        List<User> users = userRepository.findByUserName(userName);
+        return ResponseEntity.ok(users);
     }
 
+    // Find users by age
     @GetMapping("/findByAge")
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    public List<User> findByAge(@RequestParam int age) {
-        Iterable<User> Users = this.userRepository.findByAge(age);
-        List<User> UserList = new ArrayList<>();
-        Users.forEach(UserList::add);
-        return UserList;
+    public ResponseEntity<List<User>> findByAge(@RequestParam int age) {
+        List<User> users = userRepository.findByAge(age);
+        return ResponseEntity.ok(users);
     }
 
+    // Find all users
     @GetMapping("/findAllUsers")
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    public List<User> findAllUsers() {
-        Iterable<User> Users = this.userRepository.findAll();
-        List<User> UserList = new ArrayList<>();
-        Users.forEach(UserList::add);
-        return UserList;
+    public ResponseEntity<List<User>> findAllUsers() {
+        List<User> users = (List<User>) userRepository.findAll();
+        return ResponseEntity.ok(users);
     }
+
+    // Update user by username
     @PutMapping("/updateByUserName")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<User> updateByUserName(@RequestBody User user) {
-        // Ensure the userName is provided and not empty
         if (user.getUserName() == null || user.getUserName().isEmpty()) {
-            return ResponseEntity.badRequest().body(null);  // Return bad request if no userName
+            return ResponseEntity.badRequest().body(null);
         }
 
-        // Find the user by userName
         List<User> existingUsers = userRepository.findByUserName(user.getUserName());
-
-        // If no users are found, return 404 Not Found
         if (existingUsers.isEmpty()) {
-            return ResponseEntity.status(404).body(null);  // Return 404 if user not found
+            return ResponseEntity.status(404).body(null);
         }
 
-        // Assuming userName is unique, we update the first matching user
         User existingUser = existingUsers.get(0);
+        if (user.getInterest() != null) existingUser.setInterest(user.getInterest());
+        if (user.getAge() > 0) existingUser.setAge(user.getAge());
 
-        // Update fields if provided
-        if (user.getInterest() != null && !user.getInterest().isEmpty()) {
-            existingUser.setInterest(user.getInterest());
-        }
-        if (user.getAge() > 0) {
-            existingUser.setAge(user.getAge());
-        }
-
-        // Save the updated user
         User updatedUser = userRepository.save(existingUser);
-
-        // Return the updated user in the response
-        return ResponseEntity.ok(updatedUser);  // 200 OK with updated user
+        return ResponseEntity.ok(updatedUser);
     }
 
-
+    // Delete user by username
     @DeleteMapping("/deleteByUserName")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteByUserName(@RequestParam String userName) {
-        if (userName == null || userName.isEmpty()) {
-            return ResponseEntity.badRequest().body("UserID is required");
-        }
-
-        // Check if the user exists
         List<User> users = userRepository.findByUserName(userName);
         if (users.isEmpty()) {
             return ResponseEntity.status(404).body("User with UserName " + userName + " not found");
         }
 
-        // Assuming userID is unique, delete the first matching user
         userRepository.delete(users.get(0));
-
         return ResponseEntity.ok("User with UserName " + userName + " deleted successfully");
     }
 
-    @CrossOrigin(origins = "*")
+    // Delete user by unique userID
     @DeleteMapping("/deleteUser")
     public ResponseEntity<String> deleteByUserID(@RequestBody Map<String, String> payload) {
         String userID = payload.get("userID");
@@ -148,36 +124,28 @@ public class UserController {
             return ResponseEntity.badRequest().body("UserID is required");
         }
 
-        // check is user is exist
-        List<User> users = userRepository.findByUserID(userID);
-        if (users.isEmpty()) {
+        Optional<User> user = userRepository.findByUserID(userID);
+        if (user.isEmpty()) {
             return ResponseEntity.status(404).body("User with UserID " + userID + " not found");
         }
 
-        // assume userID is unique，delete the first match user
-        userRepository.delete(users.get(0));
-
+        userRepository.delete(user.get());
         return ResponseEntity.ok("User with UserID " + userID + " deleted successfully");
     }
+
+    // Delete users by gender
     @DeleteMapping("/deleteByGender")
-    @CrossOrigin(origins = "*")
     public ResponseEntity<String> deleteByGender(@RequestParam String gender) {
         if (gender == null || gender.isEmpty()) {
             return ResponseEntity.badRequest().body("Gender is required");
         }
 
-        // Find users by gender
         List<User> users = userRepository.findByGender(gender);
-
-        // Check if users with the given gender exist
         if (users.isEmpty()) {
             return ResponseEntity.status(404).body("No users found with gender " + gender);
         }
 
-        // Delete all users with the given gender
         userRepository.deleteAll(users);
-
         return ResponseEntity.ok("Users with gender " + gender + " deleted successfully");
     }
-
 }

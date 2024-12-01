@@ -2,6 +2,7 @@
 package com.cs514.backendproject5travelplanner;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.google.cloud.spring.data.datastore.repository.DatastoreRepository;
 
@@ -12,7 +13,7 @@ public interface UserRepository extends DatastoreRepository<User, Long> {
 
     List<User> findByAge(int age);
 
-    List<User> findByUserID(String userID);
+    Optional<User> findByUserID(String userID);
 
     List<User> findByUserName(String userName);
 
