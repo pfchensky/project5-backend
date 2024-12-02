@@ -2,7 +2,6 @@ package com.cs514.backendproject5travelplanner;
 
 import org.springframework.web.bind.annotation.*;
 import ai.peoplecode.OpenAIConversation;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,51 +30,39 @@ public class AIController {
     // Generate travel plans for multiple selected users
     @PostMapping("/generate-travel-plans")
     @CrossOrigin(origins = "*")
-    public List<String> generateTravelPlans(@RequestBody List<UserWithTrip> usersWithTrips) {
-        List<String> travelPlans = new ArrayList<>();
+    public String generateTravelPlan(@RequestBody List<UserWithTrip> usersWithTrips) {
         try {
-            // Generate travel plans for each selected user
-            for (UserWithTrip userWithTrip : usersWithTrips) {
-                // Fetch the user info from GCD using userName
-                List<User> users = userRepository.findByUserName(userWithTrip.getUserName());
-
-                if (!users.isEmpty()) {
-                    User user = users.get(0); // Assuming userName is unique in the database
-
-                    // Get the trip details from the request
-                    Trip userTrip = userWithTrip.getTrip();  // trip info from frontend
-
-                    // Build the context string for OpenAI, now including gender, age, and trip details
-                    String context = String.format(
-                            "You are a travel assistant AI. Generate a travel plan for the following user:\n" +
-                                    "- Age: %d\n" +
-                                    "- Gender: %s\n" +
-                                    "- Interest: %s\n" +
-                                    "- Destination: %s\n" +
-                                    "- Duration: %d days\n" +
-                                    "- Month: %s\n" +
-                                    "Please create a detailed travel plan for them based on their age, gender, interest, destination, duration, and month.",
-                            user.getAge(),
-                            user.getGender(),
-                            user.getInterest(),
-                            userTrip.getDestination(),
-                            userTrip.getDuration(),
-                            userTrip.getMonth()
-                    );
-
-                    // Call OpenAI to generate the travel plan for the current user
-                    String travelPlan = conversation.askQuestion(context, "Provide a travel plan tailored for this user.");
-                    travelPlans.add(travelPlan);
-                } else {
-                    travelPlans.add("User with userName " + userWithTrip.getUserName() + " not found.");
-                }
+            if (usersWithTrips == null || usersWithTrips.isEmpty()) {
+                return "No users provided for travel planning.";
             }
 
-        } catch (Exception e) {
-            travelPlans.add("Error generating travel plans: " + e.getMessage());
-        }
+            // Aggregating trip details
+            Trip groupTrip = usersWithTrips.get(0).getTrip();
+            StringBuilder context = new StringBuilder("You are a travel assistant AI. Generate a travel plan for this group:\n\n");
+            context.append(String.format("Trip Details:\n- Destination: %s\n- Duration: %d days\n- Month: %s\n\n",
+                    groupTrip.getDestination(), groupTrip.getDuration(), groupTrip.getMonth()));
 
-        return travelPlans;
+            // Adding group members to context
+            context.append("Group Members:\n");
+            for (UserWithTrip userWithTrip : usersWithTrips) {
+                User user = userRepository.findByUserName(userWithTrip.getUserName()).get(0);
+                context.append(String.format("- Name: %s (Age: %d, Gender: %s, Interest: %s)\n",
+                        user.getUserName(), user.getAge(), user.getGender(), user.getInterest()));
+            }
+
+            context.append("\nInstructions:\n");
+            context.append("1. Provide a detailed day-by-day itinerary balancing the group's interests.\n");
+            context.append("2. Include shared activities suitable for all members.\n");
+            context.append("3. Suggest optional individual activities based on personal interests.\n");
+
+            // Generate the travel plan using OpenAI
+            String openAIResponse = conversation.askQuestion(context.toString(), "Generate a comprehensive travel plan for the group.");
+            System.out.println("OpenAI response: " + openAIResponse);  // Log the OpenAI response
+
+            return openAIResponse;  // Return as plain text (not JSON)
+        } catch (Exception e) {
+            return "Error generating group travel plan: " + e.getMessage();
+        }
     }
 
     // DTO for receiving user data with trip information
@@ -128,4 +115,5 @@ public class AIController {
         }
     }
 }
+
 

@@ -13,7 +13,7 @@ public interface UserRepository extends DatastoreRepository<User, Long> {
 
     List<User> findByAge(int age);
 
-    Optional<User> findByUserID(String userID);
+    List<User> findByUserID(String userID);
 
     List<User> findByUserName(String userName);
 
