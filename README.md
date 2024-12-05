@@ -77,8 +77,7 @@ Users first need to select member for his group to travel. After that, Users pro
 4. **Run the Backend Application**  
    Build and run the backend application using Maven:
    ```bash
-   mvn clean install
-   mvn spring-boot:run
+   ./mvnw spring-boot:run
    ```
    The backend should now be running at:
    ```
