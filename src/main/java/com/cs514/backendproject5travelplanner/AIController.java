@@ -49,11 +49,19 @@ public class AIController {
                 context.append(String.format("- Name: %s (Age: %d, Gender: %s, Interest: %s)\n",
                         user.getUserName(), user.getAge(), user.getGender(), user.getInterest()));
             }
+            context.append("\nSpecial Notes:\n");
+            for (UserWithTrip userWithTrip : usersWithTrips) {
+                if (userWithTrip.getAge() < 16) {
+                    context.append(String.format("- %s (Age: %d) must be accompanied by an adult for all activities.\n",
+                            userWithTrip.getUserName(), userWithTrip.getAge()));
+                }
+            }
 
             context.append("\nInstructions:\n");
             context.append("1. Provide a detailed day-by-day itinerary balancing the group's interests.\n");
             context.append("2. Include shared activities suitable for all members.\n");
             context.append("3. Suggest optional individual activities based on personal interests.\n");
+            context.append("4. Ensure users under the age of 16 are accompanied by an adult for all activities.\n");
 
             // Generate the travel plan using OpenAI
             String openAIResponse = conversation.askQuestion(context.toString(), "Generate a comprehensive travel plan for the group.");
