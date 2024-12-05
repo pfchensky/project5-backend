@@ -35,4 +35,164 @@ Users first need to select member for his group to travel. After that, Users pro
 ## Video for app:
 ## Video for test User:
 
+## How to Run
+
+### **For Backend**
+
+1. **Clone the Repository**  
+   Run the following commands to clone the repository and navigate to the project directory:
+   ```bash
+   git clone https://github.com/pfchensky/project5-backend.git
+   cd project5-backend
+   ```
+
+2. **Set Up the Environment Variable (For macOS)**  
+   a. Open your `.zshrc` file:
+   ```bash
+   nano ~/.zshrc
+   ```
+
+   b. Add the following line to export your OpenAI API Key:
+   ```bash
+   export OPENAI_API_KEY="your_openai_api_key"
+   ```
+
+   c. Save the file:
+   - Press `CTRL + O` to save.
+   - Press `ENTER` to confirm the filename.
+   - Press `CTRL + X` to exit Nano.
+
+   d. Reload the `.zshrc` file to apply the changes:
+   ```bash
+   source ~/.zshrc
+   ```
+
+3. **Verify Environment Variable**  
+   Confirm that the `OPENAI_API_KEY` is set by running:
+   ```bash
+   echo $OPENAI_API_KEY
+   ```
+   You should see your API key printed in the terminal.
+
+4. **Run the Backend Application**  
+   Build and run the backend application using Maven:
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+   The backend should now be running at:
+   ```
+   http://localhost:8080
+   ```
+
+---
+
+## How to Deploy
+
+### **Deploy to Google Cloud**
+
+1. **Authenticate with Google Cloud**  
+   Run the following command to log in to your Google Cloud account:
+   ```bash
+   gcloud auth login
+   ```
+
+2. **Configure Google Cloud Project**  
+   Initialize your Google Cloud project:
+   ```bash
+   gcloud init
+   ```
+
+3. **Deploy the Application**  
+   Deploy the application to Google Cloud App Engine:
+   ```bash
+   gcloud app deploy
+   ```
+
+4. **Access the Application**  
+   Once the deployment is complete, your application will be accessible at:  
+   [https://project5-backend.uw.r.appspot.com](https://project5-backend.uw.r.appspot.com)
+
+   
+
+## How to Run
+
+### **For Frontend**
+
+1. **Clone the Repository**  
+   Run the following commands to clone the repository and navigate to the project directory:
+   ```bash
+   git clone https://github.com/pfchensky/project5-frontend.git
+   cd project5-frontend
+   ```
+
+2. **Set Up the Environment Variables**  
+   a. Create a `.env` file in the root directory of the project.
+
+   b. Add the following Firebase environment variables to the `.env` file **(replace the placeholder values with your own Firebase project configuration)**:
+   ```env
+   REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+   REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+   REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
+   REACT_APP_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+   REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+   REACT_APP_FIREBASE_APP_ID=your_firebase_app_id
+   ```
+
+   c. Save the file.
+
+   **Note:** To find your Firebase project configuration, go to the Firebase Console, open your project, and navigate to **Project Settings > General > Your apps > Firebase SDK snippet > Config**.
+
+3. **Install Dependencies**  
+   Install all required dependencies:
+   ```bash
+   npm install
+   ```
+
+4. **Run the Frontend Application**  
+   Start the development server:
+   ```bash
+   npm start
+   ```
+   The frontend should now be running at:
+   ```
+   http://localhost:3000
+   ```
+
+---
+
+## How to Deploy
+
+### **Deploy to Google Cloud**
+
+1. **Build the Application**  
+   Create an optimized production build:
+   ```bash
+   npm run build
+   ```
+
+2. **Authenticate with Google Cloud**  
+   Log in to your Google Cloud account:
+   ```bash
+   gcloud auth login
+   ```
+
+3. **Configure Google Cloud Project**  
+   Initialize your Google Cloud project:
+   ```bash
+   gcloud init
+   ```
+
+4. **Deploy the Application**  
+   Deploy the application to Google Cloud App Engine:
+   ```bash
+   gcloud app deploy
+   ```
+
+5. **Access the Application**  
+   Once the deployment is complete, your application will be accessible at:
+   ```
+   https://project5-frontend.uw.r.appspot.com
+   ```
+   **Note:** Remember to add this link to your Firebase Authorized Domains under the Firebase Console.Navigate to **Project Settings > Authentication > Setting > Authorized domains** to add the deployed domain. Without this step, you may encounter issues logging in with Firebase.
 
