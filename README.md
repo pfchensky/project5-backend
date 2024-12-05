@@ -14,6 +14,7 @@ Our database includes a table named `users`, which stores user information, incl
 - **userAge**
 - **userGender**
 - **userInterest**
+
 UserID and userName is one-to-many mapping. UserName to userAge, userGender, and userInterest is one-to-one mapping.
 
 If a user provides this information, it is saved in the database. When the user logs in, they can view and manage their stored information. Specifically:
