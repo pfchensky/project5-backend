@@ -32,7 +32,7 @@ Users first need to select member for his group to travel. After that, Users pro
 ---
 
 ## URL:
-## Video for app:
+## Video for app: https://www.youtube.com/watch?v=rsF7a_hXln4
 ## Video for test User:
 
 ## How to Run
