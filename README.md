@@ -1,5 +1,7 @@
 # Backend Project 5 - Travel Planner
 
+https://project5-frontend.uw.r.appspot.com
+
 ## Overview
 The **Travel Planner** The application is designed for users to create a personalized travel plan. By applying OpenAI and providing user trip info, this application generates customized a group travel plan based on a list of users preferences, such as age and interests. A user can add and delete his group members and update their interest. Those changes will be saved in database. With providing trip info, the user can generate his group travel plan for selected members in his travel group. This App offers an efficient and productive way to design a customized travel experience.
 
