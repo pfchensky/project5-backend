@@ -33,7 +33,7 @@ Users first need to select member for his group to travel. After that, Users pro
 
 ## URL:
 ## Video for app: https://www.youtube.com/watch?v=rsF7a_hXln4
-## Video for test User:
+## Video for test User: https://meeting.tencent.com/crm/NQQB6wdp38
 
 ## How to Run
 
